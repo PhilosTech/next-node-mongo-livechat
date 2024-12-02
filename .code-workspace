@@ -1,0 +1,9 @@
+{
+  "folders": [
+    { "path": "client" },
+    { "path": "server/auth" },
+    { "path": "server/chat" },
+    { "path": "server/storage" },
+    { "path": "infrastructure" }
+  ]
+}

@@ -1,0 +1,53 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repo
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2.  Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # 3.  (Frontend)
+      - name: Install and Build Frontend
+        run: |
+          cd client
+          npm install
+          npm run build
+
+      # 4.  (Auth Service)
+      - name: Test Auth Service
+        run: |
+          cd server/auth
+          npm install
+          npm test
+
+      # 5.  (Chat Service)
+      - name: Test Chat Service
+        run: |
+          cd server/chat
+          npm install
+          npm test
+
+      # 6.  (Storage Service)
+      - name: Test Storage Service
+        run: |
+          cd server/storage
+          npm install
+          npm test

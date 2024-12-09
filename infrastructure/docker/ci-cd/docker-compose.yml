@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: ../../client
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
+
+  auth:
+    build:
+      context: ../../server/auth
+    ports:
+      - "3002:2"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/auth
+      - JWT_SECRET=supersecretkey
+
+  chat:
+    build:
+      context: ../../server/chat
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/chat
+      - JWT_SECRET=supersecretkey
+
+  storage:
+    build:
+      context: ../../server/storage
+    ports:
+      - "3004:3004"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/storage
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
